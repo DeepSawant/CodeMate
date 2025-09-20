@@ -67,6 +67,7 @@
   <script src="js/auth.js"></script>
   <script src="js/bus.js"></script>
   <script src="js/data.js"></script>
+  <script src="js/data_extend.js"></script>
   <script src="js/progress.js"></script>
   <script>
     window.Auth.guard();
@@ -76,8 +77,10 @@
 
     function setProgress(lang, elemId){
       const pct = window.Progress.percentComplete(user.email, lang);
-      document.getElementById(elemId).style.width = pct + '%';
-      document.getElementById(elemId).title = pct + '% complete';
+      const el = document.getElementById(elemId);
+      el.style.width = pct + '%';
+      el.title = pct + '% complete';
+      el.textContent = pct + '%';
     }
     function refreshAll(){
       setProgress('java','javaProgress');

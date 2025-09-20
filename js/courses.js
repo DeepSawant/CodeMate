@@ -13,7 +13,13 @@
 
   document.getElementById('courseTitle').textContent = content.title + ' Course';
   document.getElementById('courseSubtitle').textContent = content.subtitle;
-  document.getElementById('courseProgress').style.width = window.Progress.percentComplete(user.email, lang) + '%';
+  (function(){
+    const pct = window.Progress.percentComplete(user.email, lang);
+    const el = document.getElementById('courseProgress');
+    el.style.width = pct + '%';
+    el.title = pct + '% complete';
+    el.textContent = pct + '%';
+  })();
 
   const lessonsList = document.getElementById('lessonsList');
   const article = document.getElementById('lessonContent');
@@ -43,7 +49,13 @@
   markBtn.addEventListener('click', () => {
     if(!currentLessonId) return;
     window.Progress.markLesson(user.email, lang, currentLessonId);
-    document.getElementById('courseProgress').style.width = window.Progress.percentComplete(user.email, lang) + '%';
+    (function(){
+      const pct = window.Progress.percentComplete(user.email, lang);
+      const el = document.getElementById('courseProgress');
+      el.style.width = pct + '%';
+      el.title = pct + '% complete';
+      el.textContent = pct + '%';
+    })();
     renderLessons();
     markBtn.textContent = 'Completed ✓';
   });

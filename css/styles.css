@@ -68,7 +68,7 @@ input:focus { outline: 2px solid #24316b; border-color: #2c3a7a; }
 
 .progress { height: 10px; background: #0c1230; border: 1px solid var(--border); border-radius: 100px; overflow: hidden; }
 .progress.small { height: 8px; }
-.progress .bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), #67ffd1); box-shadow: 0 0 10px rgba(32,227,178,0.4) inset; transition: width 0.5s ease; }
+.progress .bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), #67ffd1); box-shadow: 0 0 10px rgba(32,227,178,0.4) inset; transition: width 0.5s ease; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #0b1020; }
 
 .course-card h3 { margin: 8px 0; }
 .course-card .actions { display: flex; gap: 8px; margin-top: 12px; }
