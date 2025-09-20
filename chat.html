@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeMate – Chat</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="assets/logo.svg" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="left">
+      <a href="dashboard.html" class="brand-link">
+        <img src="assets/logo.svg" class="logo small" alt="logo"/>
+        <span class="brand-text">CodeMate</span>
+      </a>
+    </div>
+    <nav class="nav">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="chat.html" class="active">Ask CodeMate</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+    <div class="right">
+      <button id="logoutBtn" class="btn btn-ghost">Logout</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Ask CodeMate</h1>
+      <p class="muted">Get quick tips, examples, and explanations for Java, C, and Python.</p>
+    </section>
+
+    <section class="card chat">
+      <div id="chatWindow" class="chat-window"></div>
+      <div class="chat-input">
+        <input id="chatText" type="text" placeholder="Ask a question... e.g., 'Java for loop example'"/>
+        <button id="sendBtn" class="btn btn-primary">Send</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/chat.js"></script>
+</body>
+</html>

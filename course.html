@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeMate – Course</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="assets/logo.svg" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="left">
+      <a href="dashboard.html" class="brand-link">
+        <img src="assets/logo.svg" class="logo small" alt="logo"/>
+        <span class="brand-text">CodeMate</span>
+      </a>
+    </div>
+    <nav class="nav">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="chat.html">Ask CodeMate</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+    <div class="right">
+      <button id="logoutBtn" class="btn btn-ghost">Logout</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1 id="courseTitle">Course</h1>
+      <p id="courseSubtitle" class="muted"></p>
+      <div class="progress"><div id="courseProgress" class="bar"></div></div>
+    </section>
+
+    <div class="layout two">
+      <aside class="card sticky">
+        <h3>Lessons</h3>
+        <ol id="lessonsList" class="list"></ol>
+      </aside>
+      <section class="card">
+        <article id="lessonContent">
+          <h2>Select a lesson</h2>
+          <p>Pick a lesson from the sidebar to begin. Mark it complete when you're done to track your progress.</p>
+        </article>
+        <div class="lesson-actions">
+          <button id="markCompleteBtn" class="btn btn-primary" disabled>Mark lesson as complete</button>
+          <a id="quizLink" class="btn" href="#">Take Quiz</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/courses.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeMate – Sign Up</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="assets/logo.svg" />
+</head>
+<body class="auth-body">
+  <div class="gradient-bg"></div>
+  <main class="auth-container">
+    <div class="brand small">
+      <img src="assets/logo.svg" alt="CodeMate Logo" class="logo"/>
+      <h1>Join CodeMate</h1>
+      <p class="tagline">Learn Java, C, and Python – your way.</p>
+    </div>
+
+    <form id="signupForm" class="card auth-card">
+      <h2>Create your account</h2>
+      <div class="form-group">
+        <label for="signupName">Full Name</label>
+        <input type="text" id="signupName" placeholder="Alex Johnson" required />
+      </div>
+      <div class="form-group">
+        <label for="signupEmail">College Email</label>
+        <input type="email" id="signupEmail" placeholder="you@college.edu" required />
+      </div>
+      <div class="form-group">
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" placeholder="Create a strong password" required />
+      </div>
+      <button type="submit" class="btn btn-primary btn-full">Sign up</button>
+      <p class="muted small">Already have an account? <a href="index.html">Log in</a></p>
+    </form>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = (document.getElementById('signupName').value || '').trim();
+      const email = (document.getElementById('signupEmail').value || '').trim().toLowerCase();
+      const password = document.getElementById('signupPassword').value || '';
+      try {
+        await window.Auth.signup({ name, email, password });
+        alert('Account created! Please log in.');
+        window.location.href = 'index.html';
+      } catch (err) {
+        alert(err.message || 'Sign up failed');
+      }
+    });
+  </script>
+</body>
+</html>

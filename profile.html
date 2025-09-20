@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeMate – Profile</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="assets/logo.svg" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="left">
+      <a href="dashboard.html" class="brand-link">
+        <img src="assets/logo.svg" class="logo small" alt="logo"/>
+        <span class="brand-text">CodeMate</span>
+      </a>
+    </div>
+    <nav class="nav">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="chat.html">Ask CodeMate</a>
+      <a href="profile.html" class="active">Profile</a>
+    </nav>
+    <div class="right">
+      <button id="logoutBtn" class="btn btn-ghost">Logout</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Your Profile</h1>
+      <p class="muted">Account details and learning progress.</p>
+    </section>
+
+    <section class="grid two">
+      <div class="card">
+        <h3>Account</h3>
+        <div class="kv">
+          <div><span class="muted">Name</span><span id="pName"></span></div>
+          <div><span class="muted">Email</span><span id="pEmail"></span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Progress</h3>
+        <div class="progress-row">
+          <span>Java</span>
+          <div class="progress small"><div id="pJava" class="bar"></div></div>
+        </div>
+        <div class="progress-row">
+          <span>C</span>
+          <div class="progress small"><div id="pC" class="bar"></div></div>
+        </div>
+        <div class="progress-row">
+          <span>Python</span>
+          <div class="progress small"><div id="pPython" class="bar"></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/progress.js"></script>
+  <script>
+    window.Auth.guard();
+    const u = window.Auth.currentUser();
+    document.getElementById('pName').textContent = u.name;
+    document.getElementById('pEmail').textContent = u.email;
+    const set = (lang, id) => document.getElementById(id).style.width = window.Progress.percentComplete(u.email, lang) + '%';
+    set('java', 'pJava');
+    set('c', 'pC');
+    set('python', 'pPython');
+    document.getElementById('logoutBtn').addEventListener('click', () => { window.Auth.logout(); window.location.href = 'index.html'; });
+  </script>
+</body>
+</html>

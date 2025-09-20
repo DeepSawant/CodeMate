@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeMate – Dashboard</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="assets/logo.svg" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="left">
+      <img src="assets/logo.svg" class="logo small" alt="logo"/>
+      <span class="brand-text">CodeMate</span>
+    </div>
+    <nav class="nav">
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="chat.html">Ask CodeMate</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+    <div class="right">
+      <span id="userNameDisplay" class="muted"></span>
+      <button id="logoutBtn" class="btn btn-ghost">Logout</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Welcome, <span id="firstName"></span> 👋</h1>
+      <p class="muted">Continue your journey in Java, C, and Python. Track your progress, take quizzes, and get instant help.</p>
+    </section>
+
+    <section class="grid three">
+      <div class="card course-card" data-lang="java">
+        <h3>Java</h3>
+        <p class="muted">Object-oriented programming, JVM fundamentals.</p>
+        <div class="progress"><div id="javaProgress" class="bar"></div></div>
+        <div class="actions">
+          <a class="btn btn-primary" href="course.html?lang=java">Start Learning</a>
+          <a class="btn" href="quiz.html?lang=java">Take Quiz</a>
+        </div>
+      </div>
+
+      <div class="card course-card" data-lang="c">
+        <h3>C</h3>
+        <p class="muted">Low-level programming, pointers, memory.</p>
+        <div class="progress"><div id="cProgress" class="bar"></div></div>
+        <div class="actions">
+          <a class="btn btn-primary" href="course.html?lang=c">Start Learning</a>
+          <a class="btn" href="quiz.html?lang=c">Take Quiz</a>
+        </div>
+      </div>
+
+      <div class="card course-card" data-lang="python">
+        <h3>Python</h3>
+        <p class="muted">Clean syntax, batteries-included standard library.</p>
+        <div class="progress"><div id="pythonProgress" class="bar"></div></div>
+        <div class="actions">
+          <a class="btn btn-primary" href="course.html?lang=python">Start Learning</a>
+          <a class="btn" href="quiz.html?lang=python">Take Quiz</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/progress.js"></script>
+  <script>
+    window.Auth.guard();
+    const user = window.Auth.currentUser();
+    document.getElementById('firstName').textContent = user.name.split(' ')[0];
+    document.getElementById('userNameDisplay').textContent = user.email;
+
+    function setProgress(lang, elemId){
+      const pct = window.Progress.percentComplete(user.email, lang);
+      document.getElementById(elemId).style.width = pct + '%';
+      document.getElementById(elemId).title = pct + '% complete';
+    }
+    setProgress('java','javaProgress');
+    setProgress('c','cProgress');
+    setProgress('python','pythonProgress');
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      window.Auth.logout();
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
