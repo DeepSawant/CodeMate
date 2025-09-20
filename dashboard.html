@@ -20,6 +20,7 @@
     </nav>
     <div class="right">
       <span id="userNameDisplay" class="muted"></span>
+      <button id="syncBtn" class="btn btn-ghost" title="Refresh progress">Sync</button>
       <button id="logoutBtn" class="btn btn-ghost">Logout</button>
     </div>
   </header>
@@ -64,6 +65,7 @@
   </main>
 
   <script src="js/auth.js"></script>
+  <script src="js/bus.js"></script>
   <script src="js/data.js"></script>
   <script src="js/progress.js"></script>
   <script>
@@ -77,9 +79,22 @@
       document.getElementById(elemId).style.width = pct + '%';
       document.getElementById(elemId).title = pct + '% complete';
     }
-    setProgress('java','javaProgress');
-    setProgress('c','cProgress');
-    setProgress('python','pythonProgress');
+    function refreshAll(){
+      setProgress('java','javaProgress');
+      setProgress('c','cProgress');
+      setProgress('python','pythonProgress');
+    }
+    refreshAll();
+
+    // Auto-update via bus when progress changes in another tab/page
+    window.Bus?.on?.('progress-updated', ({ email, lang }) => {
+      if(!email || email !== user.email) return;
+      const map = { java: 'javaProgress', c: 'cProgress', python: 'pythonProgress' };
+      if(map[lang]) setProgress(lang, map[lang]); else refreshAll();
+    });
+
+    // Manual sync button
+    document.getElementById('syncBtn')?.addEventListener('click', refreshAll);
 
     document.getElementById('logoutBtn').addEventListener('click', () => {
       window.Auth.logout();

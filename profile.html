@@ -59,6 +59,7 @@
   </main>
 
   <script src="js/auth.js"></script>
+  <script src="js/bus.js"></script>
   <script src="js/data.js"></script>
   <script src="js/progress.js"></script>
   <script>
@@ -67,9 +68,18 @@
     document.getElementById('pName').textContent = u.name;
     document.getElementById('pEmail').textContent = u.email;
     const set = (lang, id) => document.getElementById(id).style.width = window.Progress.percentComplete(u.email, lang) + '%';
-    set('java', 'pJava');
-    set('c', 'pC');
-    set('python', 'pPython');
+    const refreshAll = () => { set('java', 'pJava'); set('c', 'pC'); set('python', 'pPython'); };
+    refreshAll();
+
+    // Auto-update when progress changes elsewhere
+    window.Bus?.on?.('progress-updated', ({ email, lang }) => {
+      if(email !== u.email) return;
+      if(lang === 'java') set('java', 'pJava');
+      else if(lang === 'c') set('c', 'pC');
+      else if(lang === 'python') set('python', 'pPython');
+      else refreshAll();
+    });
+
     document.getElementById('logoutBtn').addEventListener('click', () => { window.Auth.logout(); window.location.href = 'index.html'; });
   </script>
 </body>

@@ -15,6 +15,7 @@
     const s = load(email); ensureLang(s, lang);
     if(!s.languages[lang].lessonsCompleted.includes(lessonId)) s.languages[lang].lessonsCompleted.push(lessonId);
     save(email, s);
+    try { window.Bus?.broadcast?.('progress-updated', { email, lang }); } catch {}
   }
 
   function hasCompleted(email, lang, lessonId){
@@ -26,6 +27,7 @@
     const s = load(email); ensureLang(s, lang);
     s.languages[lang].quizHistory.push({ score, total, ts: Date.now() });
     save(email, s);
+    try { window.Bus?.broadcast?.('progress-updated', { email, lang }); } catch {}
   }
 
   function percentComplete(email, lang){
