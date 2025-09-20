@@ -60,11 +60,22 @@ input:focus { outline: 2px solid #24316b; border-color: #2c3a7a; }
 .brand-text { font-weight: 700; letter-spacing: 0.2px; }
 
 .container { width: min(1100px, 92%); margin: 22px auto; display: grid; gap: 16px; }
-.hero h1 { margin-bottom: 6px; }
+.hero h1 { margin-bottom: 6px; font-size: clamp(1.4rem, 1.2rem + 1vw, 2rem); }
 .grid { display: grid; gap: 16px; }
 .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 @media (max-width: 900px) { .grid.two, .grid.three { grid-template-columns: 1fr; } }
+@media (max-width: 720px) {
+  .topbar { flex-wrap: wrap; gap: 8px; }
+  .topbar .nav { width: 100%; display: none; flex-wrap: wrap; }
+  .topbar .nav.open { display: flex; }
+  .hide-sm { display: none; }
+  .container { width: 94%; }
+}
+@media (max-width: 480px) {
+  .btn { padding: 9px 12px; }
+  .card { padding: 14px 16px; border-radius: 12px; }
+}
 
 .progress { height: 10px; background: #0c1230; border: 1px solid var(--border); border-radius: 100px; overflow: hidden; }
 .progress.small { height: 8px; }
@@ -102,6 +113,9 @@ input:focus { outline: 2px solid #24316b; border-color: #2c3a7a; }
 article h2, article h3 { margin: 8px 0; }
 article pre { background: #0c1230; border: 1px solid var(--border); padding: 12px; border-radius: 10px; overflow: auto; }
 article code { color: #e3f2ff; }
+
+/* Footer */
+.site-footer { padding: 18px 0 26px; border-top: 1px solid var(--border); margin-top: 10px; }
 
 /* --- UI polish additions --- */
 /* Animated background mesh */

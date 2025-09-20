@@ -30,15 +30,21 @@
     try { window.Bus?.broadcast?.('progress-updated', { email, lang }); } catch {}
   }
 
-  function percentComplete(email, lang){
-    // We need data about number of lessons to compute percentage; expose setter from data module
-    if(!window.CODEMATE_CONTENT) return 0;
-    const lessons = (window.CODEMATE_CONTENT[lang]?.lessons || []).length;
-    if(!lessons) return 0;
+  function lessonCount(lang){
+    return (window.CODEMATE_CONTENT?.[lang]?.lessons || []).length;
+  }
+
+  function completedCount(email, lang){
     const s = load(email); ensureLang(s, lang);
-    const done = s.languages[lang].lessonsCompleted.length;
+    return s.languages[lang].lessonsCompleted.length;
+  }
+
+  function percentComplete(email, lang){
+    const lessons = lessonCount(lang);
+    if(!lessons) return 0;
+    const done = completedCount(email, lang);
     return Math.min(100, Math.round((done / lessons) * 100));
   }
 
-  window.Progress = { markLesson, hasCompleted, recordQuiz, percentComplete };
+  window.Progress = { markLesson, hasCompleted, recordQuiz, percentComplete, lessonCount, completedCount };
 })();

@@ -38,6 +38,10 @@
           <div><span class="muted">Name</span><span id="pName"></span></div>
           <div><span class="muted">Email</span><span id="pEmail"></span></div>
         </div>
+        <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+          <button id="resetBtn" class="btn">Reset progress</button>
+          <button id="certBtn" class="btn btn-primary">Download certificate</button>
+        </div>
       </div>
 
       <div class="card">
@@ -56,6 +60,8 @@
         </div>
       </div>
     </section>
+
+    <footer class="site-footer muted small center">© <span id="yearFooter"></span> CodeMate • Learn smarter</footer>
   </main>
 
   <script src="js/auth.js"></script>
@@ -63,6 +69,8 @@
   <script src="js/data.js"></script>
   <script src="js/data_extend.js"></script>
   <script src="js/progress.js"></script>
+  <script src="js/ux.js"></script>
+  <script src="js/ui.js"></script>
   <script>
     window.Auth.guard();
     const u = window.Auth.currentUser();
@@ -72,6 +80,9 @@
     const refreshAll = () => { set('java', 'pJava'); set('c', 'pC'); set('python', 'pPython'); };
     refreshAll();
 
+    // Footer year
+    document.getElementById('yearFooter').textContent = new Date().getFullYear();
+
     // Auto-update when progress changes elsewhere
     window.Bus?.on?.('progress-updated', ({ email, lang }) => {
       if(email !== u.email) return;
@@ -79,6 +90,31 @@
       else if(lang === 'c') set('c', 'pC');
       else if(lang === 'python') set('python', 'pPython');
       else refreshAll();
+    });
+
+    // Reset progress
+    document.getElementById('resetBtn')?.addEventListener('click', () => {
+      if(!confirm('Reset all progress? This cannot be undone.')) return;
+      localStorage.removeItem('codemate_progress_' + u.email);
+      window.Bus?.broadcast?.('progress-updated', { email: u.email, lang: 'all' });
+      refreshAll();
+      alert('Progress reset.');
+    });
+
+    // Certificate download (for any 100% language)
+    document.getElementById('certBtn')?.addEventListener('click', () => {
+      const langs = ['java','c','python'];
+      const completed = langs.filter(l => window.Progress.percentComplete(u.email, l) === 100);
+      if(completed.length === 0){ alert('Complete a course to download a certificate.'); return; }
+      const lang = completed[0];
+      const html = `<!DOCTYPE html><html><head><meta charset='utf-8'><title>Certificate</title>
+      <style>body{font-family:Segoe UI,Arial;display:grid;place-items:center;min-height:100vh;background:#f7fbff;color:#123} .box{border:6px solid #123;padding:40px 50px;border-radius:16px;text-align:center;max-width:700px} h1{margin:0 0 10px;font-size:36px} .muted{color:#456} .lang{color:#0a6}</style></head>
+      <body><div class='box'><h1>Certificate of Completion</h1><p class='muted'>This certifies that</p><h2>${u.name}</h2><p class='muted'>has successfully completed</p><h2 class='lang'>${lang.toUpperCase()} Fundamentals</h2><p>CodeMate • ${new Date().getFullYear()}</p></div></body></html>`;
+      const blob = new Blob([html], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `CodeMate_Certificate_${lang}.html`; a.click();
+      URL.revokeObjectURL(url);
     });
 
     document.getElementById('logoutBtn').addEventListener('click', () => { window.Auth.logout(); window.location.href = 'index.html'; });

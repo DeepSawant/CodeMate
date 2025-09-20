@@ -19,7 +19,8 @@
       <a href="profile.html">Profile</a>
     </nav>
     <div class="right">
-      <span id="userNameDisplay" class="muted"></span>
+      <button id="menuToggle" class="btn btn-ghost" aria-label="Toggle Menu">☰</button>
+      <span id="userNameDisplay" class="muted hide-sm"></span>
       <button id="syncBtn" class="btn btn-ghost" title="Refresh progress">Sync</button>
       <button id="logoutBtn" class="btn btn-ghost">Logout</button>
     </div>
@@ -77,13 +78,27 @@
         </div>
       </div>
     </section>
+    <section class="grid two">
+      <div class="card">
+        <h3>Continue learning</h3>
+        <div id="continueGrid" class="grid three"></div>
+      </div>
+      <div class="card">
+        <h3>Your activity</h3>
+        <div id="activity" class="kv"></div>
+      </div>
+    </section>
   </main>
+
+  <footer class="site-footer muted small center">© <span id="yearFooter"></span> CodeMate • Learn smarter</footer>
 
   <script src="js/auth.js"></script>
   <script src="js/bus.js"></script>
   <script src="js/data.js"></script>
   <script src="js/data_extend.js"></script>
   <script src="js/progress.js"></script>
+  <script src="js/ux.js"></script>
+  <script src="js/ui.js"></script>
   <script>
     window.Auth.guard();
     const user = window.Auth.currentUser();
@@ -113,6 +128,35 @@
 
     // Manual sync button
     document.getElementById('syncBtn')?.addEventListener('click', refreshAll);
+
+    // Streak update and continue learning
+    document.getElementById('yearFooter').textContent = new Date().getFullYear();
+    const streak = window.UX.updateDailyStreak(user.email);
+    const activity = document.getElementById('activity');
+    activity.innerHTML = '';
+    activity.insertAdjacentHTML('beforeend', `<div><span class="muted">Daily streak</span><span><strong>${streak}</strong> days</span></div>`);
+
+    function contCard(langName, langKey){
+      const l = window.UX.nextLesson(user.email, langKey);
+      const pct = window.Progress.percentComplete(user.email, langKey);
+      const done = window.Progress.completedCount(user.email, langKey);
+      const total = window.Progress.lessonCount(langKey);
+      const title = l ? `${l.title}` : 'All lessons completed!';
+      const href = l ? `course.html?lang=${langKey}` : `quiz.html?lang=${langKey}`;
+      return `<div class="card"><h4>${langName}</h4><p class="muted">${title}</p><div class="progress small"><div class="bar" style="width:${pct}%">${pct}%</div></div><p class="small muted">${done}/${total} lessons</p><a class="btn btn-primary" href="${href}">${l ? 'Resume Lesson' : 'Take Quiz'}</a></div>`;
+    }
+
+    const grid = document.getElementById('continueGrid');
+    grid.innerHTML = contCard('Java','java') + contCard('C','c') + contCard('Python','python');
+
+    // Last quiz summary
+    ['java','c','python'].forEach(k => {
+      const last = window.UX.lastQuiz(user.email, k);
+      if(last){
+        const pct = Math.round((last.score/last.total)*100);
+        activity.insertAdjacentHTML('beforeend', `<div><span class="muted">Last ${k.toUpperCase()} quiz</span><span>${last.score}/${last.total} (${pct}%)</span></div>`);
+      }
+    });
 
     document.getElementById('logoutBtn').addEventListener('click', () => {
       window.Auth.logout();
