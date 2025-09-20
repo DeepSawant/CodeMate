@@ -121,13 +121,24 @@ article code { color: #e3f2ff; }
 /* Animated background mesh */
 body::before {
   content: "";
-  position: fixed; inset: 0; z-index: -1;
+  position: fixed; inset: 0; z-index: -2;
   background:
     radial-gradient(1000px 600px at 10% 20%, rgba(108,140,255,0.12), transparent 40%),
     radial-gradient(900px 600px at 80% 10%, rgba(32,227,178,0.10), transparent 40%),
     radial-gradient(900px 600px at 50% 90%, rgba(32,227,178,0.08), transparent 40%);
   filter: saturate(120%);
   animation: floaty 20s ease-in-out infinite alternate;
+}
+/* Subtle grid overlay */
+body::after {
+  content: "";
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(30,36,69,0.55) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30,36,69,0.55) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px;
+  background-position: -1px -1px, -1px -1px;
+  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.45), rgba(0,0,0,0.9));
 }
 @keyframes floaty { from { transform: translateY(-2%);} to { transform: translateY(2%);} }
 

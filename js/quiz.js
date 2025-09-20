@@ -53,6 +53,7 @@
     });
     const total = content.quiz.length;
     window.Progress.recordQuiz(user.email, lang, score, total);
+    try { window.Achievements?.ensure?.(user.email); } catch {}
     result.classList.remove('hidden');
     result.textContent = `You scored ${score} / ${total}.`;
   });

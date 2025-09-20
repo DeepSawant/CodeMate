@@ -56,6 +56,7 @@
       el.title = pct + '% complete';
       el.textContent = pct + '%';
     })();
+    try { window.Achievements?.ensure?.(user.email); } catch {}
     renderLessons();
     markBtn.textContent = 'Completed ✓';
   });

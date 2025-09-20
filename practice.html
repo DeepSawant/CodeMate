@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeMate – Practice</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="assets/logo.svg" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="left">
+      <a href="dashboard.html" class="brand-link">
+        <img src="assets/logo.svg" class="logo small" alt="logo"/>
+        <span class="brand-text">CodeMate</span>
+      </a>
+    </div>
+    <nav class="nav">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="course.html?lang=java">Courses</a>
+      <a href="practice.html" class="active">Practice</a>
+      <a href="resources.html">Resources</a>
+      <a href="chat.html">Ask CodeMate</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+    <div class="right">
+      <button id="menuToggle" class="btn btn-ghost" aria-label="Toggle Menu">☰</button>
+      <button id="logoutBtn" class="btn btn-ghost">Logout</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Practice challenges</h1>
+      <p class="muted">Sharpen your skills with quick exercises. Mark problems as solved and track your progress.</p>
+    </section>
+
+    <section class="card">
+      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        <label>Language
+          <select id="langSel">
+            <option value="java">Java</option>
+            <option value="c">C</option>
+            <option value="python">Python</option>
+          </select>
+        </label>
+        <label>Difficulty
+          <select id="diffSel">
+            <option value="">All</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+          </select>
+        </label>
+      </div>
+      <div id="practiceList" class="grid two" style="margin-top:12px;"></div>
+    </section>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/bus.js"></script>
+  <script src="js/practice_data.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/achievements.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/practice.js"></script>
+</body>
+</html>

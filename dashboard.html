@@ -15,6 +15,9 @@
     </div>
     <nav class="nav">
       <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="course.html?lang=java">Courses</a>
+      <a href="practice.html">Practice</a>
+      <a href="resources.html">Resources</a>
       <a href="chat.html">Ask CodeMate</a>
       <a href="profile.html">Profile</a>
     </nav>
@@ -88,6 +91,22 @@
         <div id="activity" class="kv"></div>
       </div>
     </section>
+
+    <section class="grid two">
+      <div class="card">
+        <h3>Achievements</h3>
+        <div id="achievements" class="badges"></div>
+      </div>
+      <div class="card">
+        <h3>Announcements</h3>
+        <ul class="list" id="announcements"></ul>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Pro tips</h3>
+      <ul class="list" id="tips"></ul>
+    </section>
   </main>
 
   <footer class="site-footer muted small center">© <span id="yearFooter"></span> CodeMate • Learn smarter</footer>
@@ -98,6 +117,7 @@
   <script src="js/data_extend.js"></script>
   <script src="js/progress.js"></script>
   <script src="js/ux.js"></script>
+  <script src="js/achievements.js"></script>
   <script src="js/ui.js"></script>
   <script>
     window.Auth.guard();
@@ -157,6 +177,32 @@
         activity.insertAdjacentHTML('beforeend', `<div><span class="muted">Last ${k.toUpperCase()} quiz</span><span>${last.score}/${last.total} (${pct}%)</span></div>`);
       }
     });
+
+    // Achievements
+    function renderAchievements(){
+      window.Achievements.ensure(user.email);
+      const list = window.Achievements.list(user.email);
+      const el = document.getElementById('achievements');
+      el.innerHTML = list.map(a => `<span class="badge badge--blue" title="${a.desc}">${a.name}</span>`).join('') || '<span class="muted">No achievements yet. Keep learning!</span>';
+    }
+    renderAchievements();
+    window.Bus?.on?.('progress-updated', ({ email }) => { if(email === user.email) renderAchievements(); });
+    window.Bus?.on?.('achievements-updated', ({ email }) => { if(email === user.email) renderAchievements(); });
+
+    // Announcements and tips (static demo)
+    const anns = [
+      'Welcome to CodeMate! New practice challenges have landed.',
+      'Tip: Mark lessons complete to boost your streak.',
+      'Earn badges for quiz scores and course completion.'
+    ];
+    document.getElementById('announcements').innerHTML = anns.map(a => `<li>${a}</li>`).join('');
+
+    const tips = [
+      'Use the Practice page to reinforce concepts after a lesson.',
+      'Aim for 80%+ on quizzes to earn the Quiz Whiz badge.',
+      'Try multiple languages to unlock the Polyglot badge.'
+    ];
+    document.getElementById('tips').innerHTML = tips.map(t => `<li>${t}</li>`).join('');
 
     document.getElementById('logoutBtn').addEventListener('click', () => {
       window.Auth.logout();

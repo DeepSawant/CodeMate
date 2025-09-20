@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeMate – Resources</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="assets/logo.svg" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="left">
+      <a href="dashboard.html" class="brand-link">
+        <img src="assets/logo.svg" class="logo small" alt="logo"/>
+        <span class="brand-text">CodeMate</span>
+      </a>
+    </div>
+    <nav class="nav">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="course.html?lang=java">Courses</a>
+      <a href="practice.html">Practice</a>
+      <a href="resources.html" class="active">Resources</a>
+      <a href="chat.html">Ask CodeMate</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+    <div class="right">
+      <button id="menuToggle" class="btn btn-ghost" aria-label="Toggle Menu">☰</button>
+      <button id="logoutBtn" class="btn btn-ghost">Logout</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Resources</h1>
+      <p class="muted">Cheatsheets and curated links for Java, C, and Python.</p>
+    </section>
+
+    <section class="grid three">
+      <div class="card">
+        <h3>Java Cheats</h3>
+        <ul class="list">
+          <li><strong>Loops</strong> – for, while, enhanced for</li>
+          <li><strong>Collections</strong> – List, Map, Set</li>
+          <li><strong>Exceptions</strong> – try/catch/finally</li>
+        </ul>
+        <a class="btn" href="course.html?lang=java">Open Java course</a>
+      </div>
+
+      <div class="card">
+        <h3>C Cheats</h3>
+        <ul class="list">
+          <li><strong>Pointers</strong> – *, &, pointer arithmetic</li>
+          <li><strong>Memory</strong> – malloc/free</li>
+          <li><strong>I/O</strong> – printf, scanf, FILE*</li>
+        </ul>
+        <a class="btn" href="course.html?lang=c">Open C course</a>
+      </div>
+
+      <div class="card">
+        <h3>Python Cheats</h3>
+        <ul class="list">
+          <li><strong>Comprehensions</strong> – [x for x in ...]</li>
+          <li><strong>Dicts</strong> – keys/values/items</li>
+          <li><strong>Modules</strong> – import, pip basics</li>
+        </ul>
+        <a class="btn" href="course.html?lang=python">Open Python course</a>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Helpful links</h3>
+      <ul class="list">
+        <li><a href="https://docs.oracle.com/javase/8/docs/api/" target="_blank" rel="noopener">Java API Docs</a></li>
+        <li><a href="https://en.cppreference.com/w/c" target="_blank" rel="noopener">C Reference (cppreference C)</a></li>
+        <li><a href="https://docs.python.org/3/" target="_blank" rel="noopener">Python Docs</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    window.Auth.guard();
+    document.getElementById('logoutBtn').addEventListener('click', () => { window.Auth.logout(); window.location.href = 'index.html'; });
+  </script>
+</body>
+</html>
